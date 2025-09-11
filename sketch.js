@@ -34,6 +34,8 @@
 let Height = 800;
 let Width = 800;
 
+
+
 mode = "colour";
 
 more_phase = false;
@@ -53,7 +55,11 @@ let speed = 0.1;
 let m1x, m1y, m2x, m2y, m3x, m3y, m4x, m4y = 0;
 
 function setup() {
-  createCanvas(Height, Width);
+  createCanvas(windowWidth, windowHeight);
+  frameRate(60);
+
+  Height = windowHeight;
+  Width = windowWidth;
 }
 
 
@@ -123,13 +129,15 @@ function draw() {
   }
   background(backgroundColour);
   stroke(dotStroke);
+
+  let timeOffset = frameCount * speed;
   
-  for (let x = -100; x < Height+100; x += spacing){
-    for (let y = -100; y < Width + 100; y += spacing){
+  for (let x = 100; x < Width - (Width / 10); x += spacing){
+    for (let y = 100; y < Height - (Height / 10); y += spacing){
       
       //let wave = sin(frameCount * speed);
       //let wave = sin((x * frequencyX) + (frameCount * speed)) * magnitude;
-      let wave = sin((x * frequencyX) + (y * frequencyY) + (frameCount * speed)) * magnitude;
+      let wave = sin((x * frequencyX) + (y * frequencyY) + (timeOffset)) * magnitude;
       
       if(more_phase == true){
         point(x + wave, y + wave); 
@@ -178,6 +186,8 @@ function draw() {
     fill(0);
     text(mode, 100, 100, 1000, 1000);
 
+     // Display FPS
+    text("FPS: " + int(frameRate()), 100, 70, 1000, 1000);
   }
   
   
